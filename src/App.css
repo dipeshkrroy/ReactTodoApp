@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+
+.box{
+  width:400px;
+  height:100px;
+  background-color:aqua;
+  margin: 1%;
+  position: relative;
+  border-radius: 0%;
+  
+}
+.cube{
+  width:40px;
+  height:40px;
+  background-color:aqua;
+  transform:  rotate(45deg);
+  position: absolute;
+  bottom:-19%;
+  left:87.5%;
+  z-index:2;
+}
+
+.cube1{
+  width:40px;
+  height:40px;
+  background-color:aqua;
+  transform:  rotate(45deg);
+  position: absolute;
+  bottom:-19%;
+  right:87.5%;
+  z-index:2;
+}
+
+.border{
+  border: 0px solid red;
+}
+.colorRed{
+  color:#0275d8;
+}
