@@ -13,7 +13,10 @@ function Card(props){
         
     },[props]);
     return (
-        <Row>
+        <Row
+        style={{
+            borderBottom:"1px solid #35682b"
+        }}>
             <Col md={1}><p>{props.todo.id}</p></Col>
             <Col md={6}><p>{props.todo.title}</p></Col>
             <Col md={2}><p>{isCompleted}</p></Col>
@@ -21,7 +24,6 @@ function Card(props){
                 <Button className="m-1" onClick={()=>{props.setTodo1(props.todo);props.handleShow()}}><FaEdit size={20} /></Button>
                 <Button variant="danger" onClick={()=>{props.deleteTodo(props.todo.id)}}><FaTrashAlt size={20}/></Button>
             </Col>
-            <hr/>
         </Row>
     )
 }

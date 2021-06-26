@@ -1,6 +1,5 @@
 import Card from  "./card"
 function Todos(props){
-    console.log(props);
     return (
         <>
         {

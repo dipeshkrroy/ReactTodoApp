@@ -1,4 +1,4 @@
-import { GET_TODO,ADD_TODO} from "./actionTypes";
+import { GET_TODO,ADD_TODO,LOGIN,ON_ERROR} from "./actionTypes";
 import axios from "axios";
 export const getTodos = (users) =>{
     return {
@@ -14,59 +14,79 @@ export const addTodos = (todo) =>{
     };
 };
 
+export const loggedIn =(user) =>{
+    return {
+        type:LOGIN,
+        payload:user
+    }
+}
 
-export const getTodosApi = ()=>{
+export const onError = (error) =>{
+    return {
+        type : ON_ERROR,
+        payload:error
+    }
+}
+
+export const getTodosApi = (id)=>{
     return (dispatch) => {
-        axios.get("http://localhost:7070/api/users")
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/${id}`)
         .then(res=>{
-            console.log(res.data);
             dispatch(getTodos(res.data));
         }).catch(e =>{
-            console.log(e.message);
+            dispatch(onError("GetTods: "+e.message));
         });
     };
 };
 
-export const addTodoApi = (todo) =>{
+export const addTodoApi = (id,todo) =>{
     return (dispatch) =>{
-        axios.post("http://localhost:7070/api/users/5",{
+        axios.post(`${process.env.REACT_APP_API_URL}/api/users/${id}`,{
               "completed": todo.completed,
               "id": 0,
               "title": todo.title
             })
             .then(res=>{
-                console.log(res.data);
                 dispatch(addTodos(res.data.todos));
             }).catch(e =>{
-                console.log(e.message);
+                dispatch(onError("AddTods: "+e.message));
             });
     };
 };
 
-export const editTodoApi = (todo) =>{
+export const editTodoApi = (id,todo) =>{
     return (dispatch) => {
-        axios.put(`http://localhost:7070/api/users/todo/${todo.id}`,{
+        axios.put(`${process.env.REACT_APP_API_URL}/api/users/todo/${todo.id}`,{
                 "id": todo.id,
                 "title": todo.title,
                 "completed": todo.completed
               })
             .then(res=>{
-                console.log(res.data);
-                dispatch(getTodosApi());
+                dispatch(getTodosApi(id));
             }).catch(e =>{
-                console.log(e.message);
+                dispatch(onError("EditTods: "+e.message));
             });
     };
 };
 
-export const deleteTodoApi = (id) => {
+export const deleteTodoApi = (id,userId) => {
     return (dispatch) => {
-        axios.delete(`http://localhost:7070/api/users/todo/${id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/users/todo/${id}`)
             .then(res=>{
-                console.log(res.data);
-                dispatch(getTodosApi());
+                dispatch(getTodosApi(userId));
             }).catch(e =>{
-                console.log(e.message);
+                dispatch(onError("DeleteTods: "+e.message));
+            });
+    };
+};
+
+export const loginApi = (email) =>{
+    return (dispatch) => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/email/${email}/`)
+            .then(res =>{
+                dispatch(loggedIn(res.data));
+            }).catch(e =>{
+                dispatch(onError("Login: "+e.message));
             });
     };
 };

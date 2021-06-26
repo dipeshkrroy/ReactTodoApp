@@ -3,11 +3,10 @@ import { Button, Modal } from 'react-bootstrap';
 import { Formik, Form,Field } from 'formik';
 
 function ModalComponent(props){
-console.log(props);
 const initialValues ={title:props.todo.title,completed:`${props.todo.completed}`}
     return (
             <>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <Modal animation={false} show={props.show} onHide={props.handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>{props.heading}</Modal.Title>
                 </Modal.Header>
@@ -18,7 +17,7 @@ const initialValues ={title:props.todo.title,completed:`${props.todo.completed}`
                         }}
                         onSubmit={(values, { setSubmitting }) => {
                         setSubmitting(true);
-                        console.log(values);
+                        console.log(values)
                         props.addTodo({"title":values.title,"completed":values.completed,"id":props.todo.id});
                         setSubmitting(false);
                         props.handleClose();
